@@ -1,0 +1,15 @@
+.ingredients-card {
+    width: 300px;
+    height: fit-content;
+    border: solid black;
+}
+
+.ingredient {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.ingredient > * {
+    margin-right: 10px;
+}

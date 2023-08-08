@@ -1,0 +1,33 @@
+.recipes {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto;
+}
+
+#landing-header {
+    background-color: #fbf8f9;
+    height: 200px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+#welcome-container {
+    width: 50%;
+}
+
+#welcome-container h1, #welcome-container p {
+    text-align: right;
+    margin-right: 10px;
+}
+
+
+#home {
+    margin: 0 10px;
+}
+
+.categories-container {
+    display: flex;
+    flex-direction: row;
+    overflow: scroll;
+}

@@ -1,0 +1,8 @@
+.recipe-instructions {
+    width: 320px;
+    border: solid;
+}
+
+.instructions {
+    white-space: pre-line;
+}
