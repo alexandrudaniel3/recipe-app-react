@@ -1,8 +1,32 @@
-.recipe-instructions {
-    width: 320px;
-    border: solid;
+.recipe-instructions-container {
+    margin: 10px;
+    padding: 10px;
+    border-radius: 20px;
+    background: white;
+    height: fit-content;
+    width: 70%;
 }
 
-.instructions {
+.recipe-instructions {
     white-space: pre-line;
+}
+
+.recipe-instructions-title-container {
+    width: 70%;
+    margin: auto;
+}
+.recipe-instructions-title {
+    background-color: #6E449CFF;
+    background: linear-gradient(90deg, rgba(201,64,97,1) 0%, rgba(128,44,109,1) 35%, rgba(110,68,156,1) 58%, rgba(82,87,167,1) 100%);
+    background-size: 100%;
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -moz-text-fill-color: transparent;
+}
+
+@media only screen and (max-width: 768px) {
+    .recipe-instructions-title-container {
+        width: 100%;
+    }
 }

@@ -31,3 +31,19 @@
     flex-direction: row;
     overflow: scroll;
 }
+
+@media only screen and (max-width: 768px) {
+    .recipes {
+        grid-template-columns: 1fr;
+    }
+
+    #landing-header {
+        height: 250px;
+        flex-direction: column;
+    }
+
+    #welcome-container h1, #welcome-container p {
+        text-align: center;
+        margin-right: 0;
+    }
+}

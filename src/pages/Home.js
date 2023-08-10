@@ -4,13 +4,16 @@ import urls from '../urls';
 import './styles/Home.css';
 import SearchBar from "../components/SearchBar";
 import CategoryButton from "../components/CategoryButton";
+import {useNavigate, useParams, useSearchParams} from "react-router-dom";
 
 export default function Home() {
-
+    const params = useParams();
+    const [searchParams, setSearchParams] = useSearchParams();
+    const navigation = useNavigate();
     const [searchInput, setSearchInput] = useState('');
     const [recipes, setRecipes] = useState([]);
     const [categories, setCategories] = useState([]);
-    const [selectedCategory, setSelectedCategory] = useState('');
+
     const getCategories = async () => {
         const results = await fetch(urls.listCategoriesWithDetails)
             .then(response => response.json())
@@ -19,10 +22,12 @@ export default function Home() {
         setCategories(results);
     }
     const searchByCategory = async (category) => {
-
         const results = await fetch(urls.filterByCategory + category)
             .then(response => response.json())
             .then(data => data.meals);
+
+
+        setRecipes([]);
         setRecipes(results);
     }
 
@@ -36,6 +41,14 @@ export default function Home() {
             setSearchInput('');
             return;
         }
+
+        if (searchParams.has('category')) {
+            searchParams.delete('category');
+        }
+
+        setSearchParams({'search': searchInput});
+
+        setRecipes([]);
         setRecipes(results);
         setSearchInput('');
     };
@@ -54,13 +67,21 @@ export default function Home() {
             newRecipes.push(randomRecipe);
         }
 
+        setRecipes([]);
         setRecipes(newRecipes);
     };
 
     useEffect(() => {
         getCategories();
-        getMultipleRandomRecipes();
-    }, []);
+        if (searchParams.has('category')){
+            searchByCategory(searchParams.get('category'));
+        } else if (searchParams.has('search')){
+
+        } else {
+            getMultipleRandomRecipes();
+        }
+
+    }, [searchParams]);
 
 
     return (
@@ -81,15 +102,20 @@ export default function Home() {
                 <div className='categories-container'>
                     {categories.map(category => (
                         <CategoryButton
-                            selected={selectedCategory}
+                            current={searchParams.get('category')}
                             title={category.strCategory}
-                            categoryHandler={searchByCategory}/>
+                            // categoryHandler={() => navigation('/' + category.strCategory)}/>
+                            categoryHandler={() => setSearchParams({'category': category.strCategory})}
+                        />
                     ))}
                 </div>
 
                 <div className='recipes'>
                     {recipes.map(recipe => (
-                        <RecipeCard key={recipe.idMeal} props={recipe}/>
+                        <RecipeCard
+                            key={recipe.idMeal}
+                            props={recipe}
+                            id={'home-page-recipe-card'}/>
                     ))}
                 </div>
             </div>

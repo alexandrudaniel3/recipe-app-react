@@ -1,13 +1,12 @@
 import './styles/CategoryButton.css';
 
 export default function CategoryButton(props) {
-    const clicked = props.selected === props.title;
-
+    const buttonClass = props.current === props.title ? 'category-button selected-category' : 'category-button'
     return (
         <div className='category-button-container'>
             <div className='category-button-wrapper'>
                 <button
-                    className='category-button'
+                    className={buttonClass}
                     type='button'
                     onClick={() => props.categoryHandler(props.title)}
 

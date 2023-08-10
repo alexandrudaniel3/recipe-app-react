@@ -6,6 +6,8 @@
     background: linear-gradient(90deg, rgba(201,64,97,1) 0%, rgba(128,44,109,1) 35%, rgba(110,68,156,1) 58%, rgba(82,87,167,1) 100%);
     border-radius: 20px;
     padding: 3px;
+
+    transition: background-color 0.1s;
 }
 
 .category-button {
@@ -14,6 +16,8 @@
     width: 120px;
     border: none;
     border-radius: 20px;
+
+    transition: background-color 0.1s, color 0.1s;
 }
 
 .category-button-text {
@@ -28,19 +32,28 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     -moz-text-fill-color: transparent;
+
+    transition: background-position 0.1s, color 0.1s;
 }
 
 .category-button:hover {
     cursor: pointer;
 }
 
-.category-button:hover{
+.category-button-wrapper:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.category-button:hover, .selected-category{
     background: linear-gradient(90deg, rgba(201,64,97,1) 0%, rgba(128,44,109,1) 35%, rgba(110,68,156,1) 58%, rgba(82,87,167,1) 100%);
 }
 
 
-.category-button:hover .category-button-text {
+.category-button:hover .category-button-text, .selected-category .category-button-text{
     color: white;
     -webkit-text-fill-color: currentColor;
     -moz-text-fill-color: transparent;
+
+    transition: background-position 0.1s, color 0.1s;
 }
+

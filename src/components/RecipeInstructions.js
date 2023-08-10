@@ -1,10 +1,14 @@
 import './styles/RecipeInstructions.css';
 
 export default function RecipeInstructions({recipeData}) {
-    console.log(recipeData.strInstructions);
-    return(
-        <div className='recipe-instructions'>
-            <p className='instructions'>{recipeData.strInstructions}</p>
+    return (
+        <div className='recipe-instructions-container'>
+            <div className='recipe-instructions-title-container'>
+                <h1 className='recipe-instructions-title'>
+                    Instructions:
+                </h1>
+            </div>
+            <p className='recipe-instructions'>{recipeData.strInstructions}</p>
         </div>
     );
 }

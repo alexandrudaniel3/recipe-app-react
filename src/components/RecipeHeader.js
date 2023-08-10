@@ -1,16 +1,24 @@
 import './styles/RecipeHeader.css';
 
 export default function RecipeHeader({recipeData}) {
-    console.log(recipeData.strMealThumb);
-    return(
-        <div
-            className='recipe-header'
-            id={'recipe-header' + recipeData.idMeal}
-            style={{
-                backgroundImage: `url(${recipeData.strMealThumb})`,
-            }}>
-            <div className='title-container'>
-                <h1 className='recipe-title'>{recipeData.strMeal}</h1>
+    let tags = '';
+    if (recipeData.strTags != null) {
+        tags = <p>Tags: {recipeData.strTags}</p>;
+    }
+    return (
+        <div className='recipe-header-wrapper' id={'recipe-header' + recipeData.idMeal}>
+            <div className='recipe-header'>
+                <div className='image-container'>
+                    <img className='recipe-header-image' src={recipeData.strMealThumb}/>
+                </div>
+                <div className='text-container'>
+                    <h1 className='recipe-header-title'>{recipeData.strMeal}</h1>
+                    <div className='recipe-source-container'>
+                        <p>Category: {recipeData.strCategory}</p>
+                        <p>Cuisine: {recipeData.strArea}</p>
+                        {tags}
+                    </div>
+                </div>
             </div>
         </div>
     );

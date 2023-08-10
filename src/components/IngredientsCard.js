@@ -1,7 +1,6 @@
 import './styles/IngredientsCard.css';
 
 export default function IngredientsCard({recipeData}) {
-    console.log(recipeData.idMeal);
     let ingredients = JSON.parse(localStorage.getItem(recipeData.idMeal));
 
     if (!ingredients) {
@@ -25,13 +24,16 @@ export default function IngredientsCard({recipeData}) {
 
     return (
         <div className='ingredients-card' id={'ingredients-card' + recipeData.idMeal}>
+            <div className='ingredients-title-container'>
+                <h1 className='ingredients-title'>Ingredients:</h1>
+            </div>
             <div className='ingredients-list'>
                 {ingredients.map(ingredient => (
-                <div className='ingredient'>
-                    <input type='checkbox' value={ingredient.checked} />
-                    <p>{ingredient.measure}</p>
-                    <p>{ingredient.ingredient}</p>
-                </div>
+                    <div className='ingredient'>
+                        <input type='checkbox' value={ingredient.checked}/>
+                        <p>{ingredient.measure}</p>
+                        <p>{ingredient.ingredient}</p>
+                    </div>
                 ))}
             </div>
         </div>
