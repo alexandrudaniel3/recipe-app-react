@@ -29,6 +29,7 @@
 @media only screen and (max-width: 768px) {
     .share-card {
         flex-direction: column;
+        width: 90%;
     }
 
     .share-card-buttons {

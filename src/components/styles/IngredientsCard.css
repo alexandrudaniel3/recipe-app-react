@@ -33,6 +33,9 @@
 }
 
 @media only screen and (max-width: 768px) {
+    .ingredients-card {
+        width: 90%;
+    }
     .ingredients-title-container {
         width: 100%;
     }

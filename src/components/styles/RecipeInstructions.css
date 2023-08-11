@@ -29,4 +29,8 @@
     .recipe-instructions-title-container {
         width: 100%;
     }
+
+    .recipe-instructions-container {
+        width: 90%;
+    }
 }
