@@ -3,6 +3,7 @@
     background: linear-gradient(90deg, rgba(201, 64, 97, 1) 0%, rgba(128, 44, 109, 1) 35%, rgba(110, 68, 156, 1) 58%, rgba(82, 87, 167, 1) 100%);
     border-radius: 23px;
     width: 80%;
+    filter: drop-shadow(0px 4px 5px rgba(0, 0, 0, 0.3));
 }
 
 .recipe-header {

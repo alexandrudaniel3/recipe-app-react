@@ -16,7 +16,6 @@ export default function RecipeHeader({recipeData}) {
                     <div className='recipe-source-container'>
                         <p>Category: {recipeData.strCategory}</p>
                         <p>Cuisine: {recipeData.strArea}</p>
-                        {tags}
                     </div>
                 </div>
             </div>

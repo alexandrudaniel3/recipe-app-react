@@ -72,6 +72,10 @@ export default function Home() {
     };
 
     useEffect(() => {
+        document.title = 'RecipeRealm';
+    }, []);
+
+    useEffect(() => {
         getCategories();
         if (searchParams.has('category')){
             searchByCategory(searchParams.get('category'));
@@ -88,7 +92,7 @@ export default function Home() {
         <div>
             <div id='landing-header'>
                 <div id='welcome-container'>
-                    <h1>Welcome to RecipeRealm</h1>
+                    <h1>Welcome to <span id='welcome-logo'>RecipeRealm</span></h1>
                     <p>Search for your favorite dish or discover new recipes now!</p>
                 </div>
                 <SearchBar

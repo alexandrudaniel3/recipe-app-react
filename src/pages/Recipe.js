@@ -6,6 +6,8 @@ import RecipeInstructions from "../components/RecipeInstructions";
 import './styles/Recipe.css';
 import RecipeHeader from "../components/RecipeHeader";
 import RecipeCard from "../components/RecipeCard";
+import VideoCard from "../components/VideoCard";
+import ShareCard from "../components/ShareCard";
 
 export default function Recipe() {
     const params = useParams();
@@ -30,11 +32,16 @@ export default function Recipe() {
 
     useEffect(() => {
         getRecipe();
+        window.scrollTo(0, 0);
     }, [params.id]);
 
     useEffect(() => {
         if (recipeData.strCategory) {
             getRecommendedRecipes();
+        }
+
+        if (recipeData.strMeal) {
+            document.title = recipeData.strMeal;
         }
     }, [recipeData])
 
@@ -44,6 +51,7 @@ export default function Recipe() {
                 <RecipeHeader recipeData={recipeData}/>
                 <IngredientsCard recipeData={recipeData}/>
                 <RecipeInstructions recipeData={recipeData}/>
+                <ShareCard />
             </div>
             <div className='side-bar'>
                 <div className='recommended-title-container'>

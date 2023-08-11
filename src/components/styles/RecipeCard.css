@@ -4,6 +4,8 @@
     width: 90%;
     margin: 10px auto;
     transition: background-color 0.1s;
+    filter: drop-shadow(0px 4px 5px rgba(0, 0, 0, 0.3));
+    transition: filter 0.1s ease-in-out;
 }
 
 .recipe-card {
@@ -41,6 +43,7 @@
 
 .recipe-card-wrapper:hover {
     background-color: rgba(255, 255, 255, 0.1); /* Added this block */
+    filter: drop-shadow(0px 8px 8px rgba(0, 0, 0, 0.45));
 }
 
 .recipe-card-wrapper:hover .recipe-card {
