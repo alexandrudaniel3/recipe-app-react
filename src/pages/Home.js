@@ -26,8 +26,6 @@ export default function Home() {
             .then(response => response.json())
             .then(data => data.meals);
 
-
-        setRecipes([]);
         setRecipes(results);
     }
 
@@ -48,9 +46,8 @@ export default function Home() {
 
         setSearchParams({'search': searchInput});
 
-        setRecipes([]);
-        setRecipes(results);
         setSearchInput('');
+        setRecipes(results);
     };
 
     const getRandomRecipe = async () => {
@@ -67,7 +64,6 @@ export default function Home() {
             newRecipes.push(randomRecipe);
         }
 
-        setRecipes([]);
         setRecipes(newRecipes);
     };
 
@@ -80,7 +76,9 @@ export default function Home() {
         if (searchParams.has('category')){
             searchByCategory(searchParams.get('category'));
         } else if (searchParams.has('search')){
-
+            if (searchParams.get('search') === '') {
+                getMultipleRandomRecipes();
+            }
         } else {
             getMultipleRandomRecipes();
         }
@@ -106,6 +104,7 @@ export default function Home() {
                 <div className='categories-container'>
                     {categories.map(category => (
                         <CategoryButton
+                            key={category.strCategory}
                             current={searchParams.get('category')}
                             title={category.strCategory}
                             // categoryHandler={() => navigation('/' + category.strCategory)}/>
@@ -115,9 +114,9 @@ export default function Home() {
                 </div>
 
                 <div className='recipes'>
-                    {recipes.map(recipe => (
+                    {recipes.map((recipe, index) => (
                         <RecipeCard
-                            key={recipe.idMeal}
+                            key={index}
                             props={recipe}
                             id={'home-page-recipe-card'}/>
                     ))}
