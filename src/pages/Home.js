@@ -21,6 +21,7 @@ export default function Home() {
 
         setCategories(results);
     }
+
     const searchByCategory = async (category) => {
         const results = await fetch(urls.filterByCategory + category)
             .then(response => response.json())
@@ -69,6 +70,11 @@ export default function Home() {
 
     useEffect(() => {
         document.title = 'RecipeRealm';
+        if (searchParams.has('category')) {
+            searchByCategory(searchParams.get('category'));
+        } else {
+            getMultipleRandomRecipes();
+        }
     }, []);
 
     useEffect(() => {
