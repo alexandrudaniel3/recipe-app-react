@@ -5,7 +5,7 @@
     {
       "src": "favicon.png",
       "sizes": "124x124",
-      "type": "image/x-icon",
+      "type": "image/png",
       "purpose": "any"
     },
     {
@@ -15,7 +15,7 @@
       "purpose": "maskable"
     },
     {
-      "src": "maskable_icon_x512.png",
+      "src": "maskable_icon_x128.png",
       "type": "image/png",
       "sizes": "128x128",
       "purpose": "maskable"
