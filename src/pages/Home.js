@@ -31,6 +31,11 @@ export default function Home() {
     }
 
     const searchRecipes = async () => {
+
+        if (searchInput === '') {
+            getMultipleRandomRecipes();
+            return;
+        }
         const results = await fetch(urls.searchByName + searchInput)
             .then(response => response.json())
             .then(data => data.meals);
@@ -47,7 +52,6 @@ export default function Home() {
 
         setSearchParams({'search': searchInput});
 
-        setSearchInput('');
         setRecipes(results);
     };
 
@@ -58,14 +62,19 @@ export default function Home() {
     };
 
     const getMultipleRandomRecipes = async () => {
-        const newRecipes = [];
+        if (!sessionStorage.getItem("loadedRecipes")) {
+            const newRecipes = [];
 
-        for (let i = 0; i < 12; i++) {
-            const randomRecipe = await getRandomRecipe();
-            newRecipes.push(randomRecipe);
+            for (let i = 0; i < 12; i++) {
+                const randomRecipe = await getRandomRecipe();
+                newRecipes.push(randomRecipe);
+            }
+
+            setRecipes(newRecipes);
+            sessionStorage.setItem("loadedRecipes", JSON.stringify(newRecipes));
+        } else {
+            setRecipes(JSON.parse(sessionStorage.getItem("loadedRecipes")));
         }
-
-        setRecipes(newRecipes);
     };
 
     useEffect(() => {
@@ -82,9 +91,6 @@ export default function Home() {
         if (searchParams.has('category')){
             searchByCategory(searchParams.get('category'));
         } else if (searchParams.has('search')){
-            if (searchParams.get('search') === '') {
-                getMultipleRandomRecipes();
-            }
         } else {
             getMultipleRandomRecipes();
         }
@@ -108,7 +114,7 @@ export default function Home() {
             </div>
             <div id='home'>
                 <div className='categories-container'>
-                    {categories.map(category => (
+                    {categories.sort((a, b) => a.strCategory.localeCompare(b.strCategory)).map(category => (
                         <CategoryButton
                             key={category.strCategory}
                             current={searchParams.get('category')}
