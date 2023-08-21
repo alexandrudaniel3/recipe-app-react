@@ -61,8 +61,8 @@ export default function Home() {
     };
 
     const getMultipleRandomRecipes = async () => {
-        // if (!sessionStorage.getItem("loadedRecipes")) {
-        //     console.log('no sessionstorage');
+        if (!sessionStorage.getItem("loadedRecipes")) {
+            console.log('no sessionstorage');
             const newRecipes = [];
 
             for (let i = 0; i < 12; i++) {
@@ -71,11 +71,11 @@ export default function Home() {
             }
 
             setRecipes(newRecipes);
-            // sessionStorage.setItem("loadedRecipes", JSON.stringify(newRecipes));
-        // } else {
-        //     console.log('loaded sessionstorage');
-        //     setRecipes(JSON.parse(sessionStorage.getItem("loadedRecipes")));
-        // }
+            sessionStorage.setItem("loadedRecipes", JSON.stringify(newRecipes));
+        } else {
+            console.log('loaded sessionstorage');
+            setRecipes(JSON.parse(sessionStorage.getItem("loadedRecipes")));
+        }
     };
 
     useEffect(() => {
