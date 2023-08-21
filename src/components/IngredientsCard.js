@@ -28,8 +28,8 @@ export default function IngredientsCard({recipeData}) {
                 <h1 className='ingredients-title'>Ingredients:</h1>
             </div>
             <div className='ingredients-list'>
-                {ingredients.map(ingredient => (
-                    <div className='ingredient'>
+                {ingredients.map((ingredient, index) => (
+                    <div className='ingredient' key={index}>
                         <input type='checkbox' value={ingredient.checked}/>
                         <p>{ingredient.measure}</p>
                         <p>{ingredient.ingredient}</p>
