@@ -8,17 +8,20 @@ import RecipeHeader from "../components/RecipeHeader";
 import RecipeCard from "../components/RecipeCard";
 import VideoCard from "../components/VideoCard";
 import ShareCard from "../components/ShareCard";
+import LoadingCircle from "../components/LoadingCircle";
 
 export default function Recipe() {
     const params = useParams();
     const [recipeData, setRecipeData] = useState({});
     const [recommendedRecipes, setRecommendedRecipes] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     const getRecipe = async () => {
         await fetch(urls.getById + params.id)
             .then(response => response.json())
             .then(data => {
                 setRecipeData(data.meals[0]);
+                setLoading(false);
             });
     };
 
@@ -31,6 +34,7 @@ export default function Recipe() {
     }
 
     useEffect(() => {
+        setLoading(true);
         getRecipe();
         window.scrollTo(0, 0);
     }, [params.id]);
@@ -45,15 +49,21 @@ export default function Recipe() {
         }
     }, [recipeData])
 
-    return (
-        <div className='recipe-page'>
+    const displayRecipe = () => {
+        return (
             <div className='recipe-container'>
                 <RecipeHeader recipeData={recipeData}/>
                 <IngredientsCard recipeData={recipeData}/>
                 <RecipeInstructions recipeData={recipeData}/>
-                <ShareCard />
+                <ShareCard/>
             </div>
-            <div className='side-bar'>
+        )
+    }
+
+    return (
+        <div className='recipe-page'>
+            {loading ? <LoadingCircle /> : displayRecipe()}
+            {loading ? null : <div className='side-bar'>
                 <div className='recommended-title-container'>
                     <h1 className='recommended-title'>
                         Recommendations:
@@ -67,7 +77,7 @@ export default function Recipe() {
                             id='recipe-page'/>
                     ))}
                 </div>
-            </div>
+            </div>}
         </div>
     );
 }

@@ -5,6 +5,8 @@ import './styles/Home.css';
 import SearchBar from "../components/SearchBar";
 import CategoryButton from "../components/CategoryButton";
 import {useNavigate, useParams, useSearchParams} from "react-router-dom";
+import Categories from "../components/Categories";
+import LoadingCircle from "../components/LoadingCircle";
 
 export default function Home() {
     const params = useParams();
@@ -12,22 +14,21 @@ export default function Home() {
     const navigation = useNavigate();
     const [searchInput, setSearchInput] = useState('');
     const [recipes, setRecipes] = useState([]);
-    const [categories, setCategories] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [selectedCategory, setSelectedCategory] = useState('Featured');
 
-    const getCategories = async () => {
-        const results = await fetch(urls.listCategoriesWithDetails)
-            .then(response => response.json())
-            .then(data => data.categories);
 
-        setCategories(results);
-    }
+
 
     const searchByCategory = async (category) => {
+        setLoading(true);
         const results = await fetch(urls.filterByCategory + category)
             .then(response => response.json())
             .then(data => data.meals);
 
         setRecipes(results);
+        setLoading(false);
+
     }
 
     const searchRecipes = async () => {
@@ -35,6 +36,9 @@ export default function Home() {
             getMultipleRandomRecipes();
             return;
         }
+
+        setLoading(true);
+        setSelectedCategory('');
         const results = await fetch(urls.searchByName + searchInput)
             .then(response => response.json())
             .then(data => data.meals);
@@ -52,6 +56,7 @@ export default function Home() {
         setSearchParams({'search': searchInput});
 
         setRecipes(results);
+        setLoading(false);
     };
 
     const getRandomRecipe = async () => {
@@ -62,6 +67,7 @@ export default function Home() {
 
     const getMultipleRandomRecipes = async () => {
         if (!sessionStorage.getItem("loadedRecipes")) {
+            setLoading(true);
             console.log('no sessionstorage');
             const newRecipes = [];
 
@@ -71,10 +77,12 @@ export default function Home() {
             }
 
             setRecipes(newRecipes);
+            setLoading(false);
             sessionStorage.setItem("loadedRecipes", JSON.stringify(newRecipes));
         } else {
             console.log('loaded sessionstorage');
             setRecipes(JSON.parse(sessionStorage.getItem("loadedRecipes")));
+            setLoading(false);
         }
     };
 
@@ -88,7 +96,7 @@ export default function Home() {
     }, []);
 
     useEffect(() => {
-        getCategories();
+        // getCategories();
         if (searchParams.has('category')){
             searchByCategory(searchParams.get('category'));
         } else if (searchParams.has('search')){
@@ -97,6 +105,24 @@ export default function Home() {
         }
 
     }, [searchParams]);
+
+    useEffect(() => {
+        if (selectedCategory !== '') {}
+        setSearchInput('');
+    }, [selectedCategory]);
+    const displayRecipes = () => {
+
+        return(
+            <div className='recipes'>
+                {recipes.map((recipe, index) => (
+                    <RecipeCard
+                        key={index}
+                        props={recipe}
+                        id={'home-page-recipe-card'}/>
+                ))}
+            </div>
+        )
+    }
 
 
     return (
@@ -111,29 +137,14 @@ export default function Home() {
                     buttonTitle='Search'
                     submitHandler={searchRecipes}
                     value={searchInput}
-                    changeHandler={setSearchInput}/>
+                    changeHandler={setSearchInput}
+                />
             </div>
             <div id='home'>
-                <div className='categories-container'>
-                    {categories.sort((a, b) => a.strCategory.localeCompare(b.strCategory)).map(category => (
-                        <CategoryButton
-                            key={category.strCategory}
-                            current={searchParams.get('category')}
-                            title={category.strCategory}
-                            // categoryHandler={() => navigation('/' + category.strCategory)}/>
-                            categoryHandler={() => setSearchParams({'category': category.strCategory})}
-                        />
-                    ))}
-                </div>
-
-                <div className='recipes'>
-                    {recipes.map((recipe, index) => (
-                        <RecipeCard
-                            key={index}
-                            props={recipe}
-                            id={'home-page-recipe-card'}/>
-                    ))}
-                </div>
+                <Categories
+                selectedCategory={selectedCategory}
+                setSelectedCategory={setSelectedCategory}/>
+                {loading ? <LoadingCircle /> : displayRecipes()}
             </div>
         </div>
     );

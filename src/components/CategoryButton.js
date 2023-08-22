@@ -9,7 +9,6 @@ export default function CategoryButton(props) {
                     className={buttonClass}
                     type='button'
                     onClick={() => props.categoryHandler(props.title)}
-
                 >
                     <span className='category-button-text'>{props.title}</span>
                 </button>
