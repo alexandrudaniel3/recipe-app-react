@@ -12,16 +12,24 @@ export default function Home() {
     const params = useParams();
     const [searchParams, setSearchParams] = useSearchParams();
     const navigation = useNavigate();
-    const [searchInput, setSearchInput] = useState('');
+    const [searchInput, setSearchInput] = useState(searchParams.has('search') ? searchParams.get('search') : '');
     const [recipes, setRecipes] = useState([]);
     const [loading, setLoading] = useState(true);
     const [selectedCategory, setSelectedCategory] = useState('Featured');
 
 
-
-
     const searchByCategory = async (category) => {
         setLoading(true);
+
+        if (searchParams.has('search')) {
+            searchParams.delete('search');
+        }
+        setSelectedCategory(category);
+
+        if (category === 'Featured') {
+            getFeaturedRecipes();
+            return;
+        }
         const results = await fetch(urls.filterByCategory + category)
             .then(response => response.json())
             .then(data => data.meals);
@@ -33,7 +41,6 @@ export default function Home() {
 
     const searchRecipes = async () => {
         if (searchInput === '') {
-            getMultipleRandomRecipes();
             return;
         }
 
@@ -46,6 +53,7 @@ export default function Home() {
         if (!results) {
             alert('No recipes found.');
             setSearchInput('');
+            getFeaturedRecipes()
             return;
         }
 
@@ -59,29 +67,25 @@ export default function Home() {
         setLoading(false);
     };
 
-    const getRandomRecipe = async () => {
-        return await fetch(urls.getRandom)
-            .then(response => response.json())
-            .then(data => data.meals[0]);
-    };
 
-    const getMultipleRandomRecipes = async () => {
-        if (!sessionStorage.getItem("loadedRecipes")) {
+    const getFeaturedRecipes = async () => {
+        setSelectedCategory('Featured');
+        if (!sessionStorage.getItem("featuredRecipes")) {
             setLoading(true);
-            console.log('no sessionstorage');
             const newRecipes = [];
 
             for (let i = 0; i < 12; i++) {
-                const randomRecipe = await getRandomRecipe();
+                const randomRecipe = await fetch(urls.getRandom)
+                    .then(response => response.json())
+                    .then(data => data.meals[0]);;
                 newRecipes.push(randomRecipe);
             }
 
             setRecipes(newRecipes);
             setLoading(false);
-            sessionStorage.setItem("loadedRecipes", JSON.stringify(newRecipes));
+            sessionStorage.setItem("featuredRecipes", JSON.stringify(newRecipes));
         } else {
-            console.log('loaded sessionstorage');
-            setRecipes(JSON.parse(sessionStorage.getItem("loadedRecipes")));
+            setRecipes(JSON.parse(sessionStorage.getItem("featuredRecipes")));
             setLoading(false);
         }
     };
@@ -90,38 +94,40 @@ export default function Home() {
         document.title = 'RecipeRealm';
         if (searchParams.has('category')) {
             searchByCategory(searchParams.get('category'));
+        } else if (searchParams.has('search')) {
+            searchRecipes(searchParams.get('search'));
         } else {
-            getMultipleRandomRecipes();
+            getFeaturedRecipes();
         }
     }, []);
 
     useEffect(() => {
-        // getCategories();
-        if (searchParams.has('category')){
+        if (searchParams.has('category')) {
             searchByCategory(searchParams.get('category'));
-        } else if (searchParams.has('search')){
+        } else if (searchParams.has('search')) {
+            searchRecipes(searchParams.get('search'));
         } else {
-            getMultipleRandomRecipes();
+            getFeaturedRecipes();
         }
 
     }, [searchParams]);
 
     useEffect(() => {
-        if (selectedCategory !== '') {}
-        setSearchInput('');
+        if (selectedCategory !== '') {
+            setSearchInput('');
+        }
     }, [selectedCategory]);
-    const displayRecipes = () => {
 
-        return(
-            <div className='recipes'>
-                {recipes.map((recipe, index) => (
-                    <RecipeCard
-                        key={index}
-                        props={recipe}
-                        id={'home-page-recipe-card'}/>
-                ))}
-            </div>
-        )
+    const displayRecipes = () => {
+        const elements = <div className='recipes'>
+            {recipes.map((recipe, index) => (
+                <RecipeCard
+                    key={index}
+                    props={recipe}
+                    id={'home-page-recipe-card'}/>
+            ))}
+        </div>;
+        return elements;
     }
 
 
@@ -142,9 +148,9 @@ export default function Home() {
             </div>
             <div id='home'>
                 <Categories
-                selectedCategory={selectedCategory}
-                setSelectedCategory={setSelectedCategory}/>
-                {loading ? <LoadingCircle /> : displayRecipes()}
+                    selectedCategory={selectedCategory}
+                    setSelectedCategory={setSelectedCategory}/>
+                {loading ? <LoadingCircle/> : displayRecipes()}
             </div>
         </div>
     );

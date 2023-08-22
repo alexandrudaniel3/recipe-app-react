@@ -1,11 +1,15 @@
 import './styles/Header.css';
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useSearchParams} from "react-router-dom";
 
 export default function Header() {
+    const [searchParams, setSearchParams] = useSearchParams();
     const navigation = useNavigate();
     return (
         <div className='no-select' id='header'>
-            <h1 onClick={() => navigation('/')}>RecipeRealm</h1>
+            <h1 onClick={() => {
+                setSearchParams({});
+                navigation('/');
+            }}>RecipeRealm</h1>
         </div>
     );
 }
