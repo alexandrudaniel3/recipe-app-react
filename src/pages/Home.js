@@ -90,16 +90,16 @@ export default function Home() {
         }
     };
 
-    useEffect(() => {
-        document.title = 'RecipeRealm';
-        if (searchParams.has('category')) {
-            searchByCategory(searchParams.get('category'));
-        } else if (searchParams.has('search')) {
-            searchRecipes(searchParams.get('search'));
-        } else {
-            getFeaturedRecipes();
-        }
-    }, []);
+    // useEffect(() => {
+    //     document.title = 'RecipeRealm';
+    //     if (searchParams.has('category')) {
+    //         searchByCategory(searchParams.get('category'));
+    //     } else if (searchParams.has('search')) {
+    //         searchRecipes(searchParams.get('search'));
+    //     } else {
+    //         getFeaturedRecipes();
+    //     }
+    // }, []);
 
     useEffect(() => {
         if (searchParams.has('category')) {

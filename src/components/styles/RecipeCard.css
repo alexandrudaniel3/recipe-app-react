@@ -24,7 +24,7 @@
 }
 
 .recipe-title-container {
-    height: 100%;
+    /*height: 100%;*/
 }
 
 .recipe-title {
@@ -57,11 +57,14 @@
         -webkit-text-fill-color: currentColor;
         -moz-text-fill-color: transparent;
         transition: background-position 0.1s, color 0.1s;
+        cursor: pointer;
+
     }
 
     .recipe-card-wrapper:hover {
         background-color: rgba(255, 255, 255, 0.1); /* Added this block */
         filter: drop-shadow(0px 8px 8px rgba(0, 0, 0, 0.45));
+        cursor: pointer;
     }
 
     .recipe-card-wrapper:hover .recipe-card {
@@ -70,4 +73,26 @@
         color: transparent;
         transition: background 0.1s, color 0.1s;
     }
+}
+
+.recipe-card-wrapper:active .recipe-title{
+    color: white;
+    -webkit-text-fill-color: currentColor;
+    -moz-text-fill-color: transparent;
+    transition: background-position 0.1s, color 0.1s;
+    cursor: pointer;
+
+}
+
+.recipe-card-wrapper:active {
+    background-color: rgba(255, 255, 255, 0.1); /* Added this block */
+    filter: drop-shadow(0px 8px 8px rgba(0, 0, 0, 0.45));
+    cursor: pointer;
+}
+
+.recipe-card-wrapper:active .recipe-card {
+    cursor: pointer;
+    background: linear-gradient(90deg, rgba(201,64,97,1) 0%, rgba(128,44,109,1) 35%, rgba(110,68,156,1) 58%, rgba(82,87,167,1) 100%);
+    color: transparent;
+    transition: background 0.1s, color 0.1s;
 }

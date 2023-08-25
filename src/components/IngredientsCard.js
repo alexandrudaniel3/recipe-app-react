@@ -1,26 +1,40 @@
 import './styles/IngredientsCard.css';
+import React, { useState, useEffect } from 'react';
 
-export default function IngredientsCard({recipeData}) {
-    let ingredients = JSON.parse(localStorage.getItem(recipeData.idMeal));
+export default function IngredientsCard({ recipeData }) {
+    const [ingredients, setIngredients] = useState([]);
 
-    if (!ingredients) {
-        ingredients = [];
+    useEffect(() => {
+        const storedIngredients = JSON.parse(sessionStorage.getItem(recipeData.idMeal));
 
-        for (let i = 1; i <= 20; i++) {
-            if (!recipeData["strIngredient" + i]) {
-                break;
-            }
-            ingredients.push(
-                {
+        if (!storedIngredients) {
+            const newIngredients = [];
+
+            for (let i = 1; i <= 20; i++) {
+                if (!recipeData["strIngredient" + i]) {
+                    break;
+                }
+                newIngredients.push({
                     checked: false,
                     measure: recipeData["strMeasure" + i],
                     ingredient: recipeData["strIngredient" + i],
-                }
-            );
-        }
+                });
+            }
 
-        localStorage.setItem(recipeData.idMeal, JSON.stringify(ingredients));
-    }
+            setIngredients(newIngredients);
+            sessionStorage.setItem(recipeData.idMeal, JSON.stringify(newIngredients));
+        } else {
+            setIngredients(storedIngredients);
+        }
+    }, [recipeData.idMeal]);
+
+    const ingredientCheckHandler = (index) => {
+        const updatedIngredients = [...ingredients];
+        updatedIngredients[index].checked = !updatedIngredients[index].checked;
+
+        setIngredients(updatedIngredients);
+        sessionStorage.setItem(recipeData.idMeal, JSON.stringify(updatedIngredients));
+    };
 
     return (
         <div className='ingredients-card' id={'ingredients-card' + recipeData.idMeal}>
@@ -30,12 +44,18 @@ export default function IngredientsCard({recipeData}) {
             <div className='ingredients-list'>
                 {ingredients.map((ingredient, index) => (
                     <div className='ingredient' key={index}>
-                        <input type='checkbox' value={ingredient.checked}/>
-                        <p>{ingredient.measure}</p>
-                        <p>{ingredient.ingredient}</p>
+                        <input
+                            id={index.toString()}
+                            type='checkbox'
+                            checked={ingredient.checked}
+                            onChange={() => ingredientCheckHandler(index)}
+                        />
+                        <label for={index.toString()}>
+                            {ingredient.measure + ' ' + ingredient.ingredient}
+                        </label>
                     </div>
                 ))}
             </div>
         </div>
-    )
+    );
 }

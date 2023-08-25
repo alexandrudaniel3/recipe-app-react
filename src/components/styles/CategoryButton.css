@@ -32,7 +32,6 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     -moz-text-fill-color: transparent;
-
     transition: background-position 0.1s, color 0.1s;
 }
 
@@ -68,6 +67,5 @@
     color: white;
     -webkit-text-fill-color: currentColor;
     -moz-text-fill-color: transparent;
-
     transition: background-position 0.1s, color 0.1s;
 }
