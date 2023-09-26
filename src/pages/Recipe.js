@@ -46,7 +46,6 @@ export default function Recipe() {
 
         if (recipeData.strMeal) {
             document.title = recipeData.strMeal;
-            window.postMessage(document.title);
         }
     }, [recipeData])
 
